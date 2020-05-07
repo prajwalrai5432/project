@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
-
+const {ObjectId} = mongoose.Schema.Types
 const ModelSchema = new mongoose.Schema({
+  _id:{
+    type:ObjectId,
+    required:true
+  },
   Brand: {
     type: String,
     required: true,

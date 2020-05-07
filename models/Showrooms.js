@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const ShowroomSchema = new mongoose.Schema({
+  _id:{
+    type:mongoose.Schema.Types.ObjectId,
+    required:true
+  },
   Brand: {
     type: String,
     required: true,

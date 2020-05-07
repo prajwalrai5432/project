@@ -1,6 +1,7 @@
 const connectDB = require('./config/db');
 const express = require('express');
 const formidable = require('formidable');
+const mongoose = require('mongoose');
 const fs = require('fs');
 const image2base64 = require('image-to-base64');
 const vehicleModel = require('./models/Home');
@@ -8,6 +9,8 @@ const showroomModel = require('./models/Showrooms');
 const path = require('path');
 const app = express();
 const port = 5000;
+
+
 
 connectDB()
   .then(() => {
@@ -39,7 +42,7 @@ app.get('/sh', (req, res) => {
   res.sendFile(path.join(__dirname + '/html/addt.html'));
 });
 
-app.post('/datata', (req, res, next) => {
+app.post('/showroom_data', (req, res, next) => {
   const form = formidable({
     multiples: true,
   });
@@ -50,7 +53,7 @@ app.post('/datata', (req, res, next) => {
       return;
     }
     showroomModel
-      .create({ ...fields })
+      .create({ ...fields,_id:mongoose.Types.ObjectId() })
       .then(() => {
         console.log('document created');
       })
@@ -61,7 +64,7 @@ app.post('/datata', (req, res, next) => {
   });
 });
 
-app.post('/data', (req, res, next) => {
+app.post('/car_data', (req, res, next) => {
   const form = formidable({
     multiples: true,
     uploadDir: path.join(__dirname + '/.uploads'),
@@ -89,6 +92,7 @@ app.post('/data', (req, res, next) => {
               .create({
                 ...fields,
                 Image: `data:${files.file.type};base64, ${base64}`,
+                _id:mongoose.Types.ObjectId()
               })
               .then(() => {
                 console.log('document created');
@@ -104,4 +108,59 @@ app.post('/data', (req, res, next) => {
     );
   });
 });
+
+//error handler
+const errorHandler = (res,error,message="something Went Wrong",code=500)=>{
+  return res.status(code).json(message,error)
+}
+
+// car query
+
+app.get("/cars",(req,res,next)=>{
+  vehicleModel.find().exec()
+  .then(res=>{
+    res.status(200).json(res)
+  })
+  .catch(err=>{
+    res= errorHandler(res,err)
+  })
+  return res
+})
+
+app.get("/cars/:Brand",(req,res,next)=>{
+  const Brand =  req.params.Brand
+  vehicleModel.find({Brand}).exec()
+  .then(res=>{
+    res.status(200).json(res)
+  })
+  .catch(err=>{
+    res=errorHandler(res,err)
+  })
+  return res
+})
+
+app.get("/cars/:id",(res,res,next)=>{
+  const id = req.params.id
+  vehicleModel.findById({_id:id}).exec()
+  .then(res=>{
+    res.status(200).json(res)
+  })
+  .catch(err=>{
+    res=errorHandler(res,err)
+  })
+  return res
+})
+
+app.get("/showrooms/:brand",(req,res,next)=>{
+  const Brand = req.params.brand
+  showroomModel.find({Brand}).exec()
+  .then(res=>{
+    res.status(200).json(res)
+  })
+  .catch(err=>{
+    res=errorHandler(res,err)
+  })
+  return res
+})
+
 app.listen(port, () => console.log(`listening on port:${port}`));
