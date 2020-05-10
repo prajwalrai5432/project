@@ -9,8 +9,9 @@ const showroomModel = require('./models/Showrooms');
 const path = require('path');
 const app = express();
 const port = 5000;
+const cors = require('cors');
 
-
+app.use(cors());
 
 connectDB()
   .then(() => {
@@ -42,7 +43,7 @@ app.get('/sh', (req, res) => {
   res.sendFile(path.join(__dirname + '/html/addt.html'));
 });
 
-app.post('/showroom_data', (req, res, next) => {
+app.post('/datata', (req, res, next) => {
   const form = formidable({
     multiples: true,
   });
@@ -53,7 +54,7 @@ app.post('/showroom_data', (req, res, next) => {
       return;
     }
     showroomModel
-      .create({ ...fields,_id:mongoose.Types.ObjectId() })
+      .create({ ...fields, _id: mongoose.Types.ObjectId() })
       .then(() => {
         console.log('document created');
       })
@@ -92,7 +93,7 @@ app.post('/car_data', (req, res, next) => {
               .create({
                 ...fields,
                 Image: `data:${files.file.type};base64, ${base64}`,
-                _id:mongoose.Types.ObjectId()
+                _id: mongoose.Types.ObjectId(),
               })
               .then(() => {
                 console.log('document created');
@@ -110,57 +111,72 @@ app.post('/car_data', (req, res, next) => {
 });
 
 //error handler
-const errorHandler = (res,error,message="something Went Wrong",code=500)=>{
-  return res.status(code).json(message,error)
-}
+const errorHandler = (
+  res,
+  error,
+  message = 'something Went Wrong',
+  code = 500
+) => {
+  return res.status(code).json({ message, error });
+};
 
 // car query
 
-app.get("/cars",(req,res,next)=>{
-  vehicleModel.find().exec()
-  .then(res=>{
-    res.status(200).json(res)
-  })
-  .catch(err=>{
-    res= errorHandler(res,err)
-  })
-  return res
-})
+app.get('/cars', (req, res, next) => {
+  vehicleModel
+    .find()
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+      console.log(err);
+    });
+  return res;
+});
 
-app.get("/cars/:Brand",(req,res,next)=>{
-  const Brand =  req.params.Brand
-  vehicleModel.find({Brand}).exec()
-  .then(res=>{
-    res.status(200).json(res)
-  })
-  .catch(err=>{
-    res=errorHandler(res,err)
-  })
-  return res
-})
+app.get('/cars/:Brand', (req, res, next) => {
+  const Brand = req.params.Brand;
+  vehicleModel
+    .find({ Brand })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
 
-app.get("/cars/:id",(res,res,next)=>{
-  const id = req.params.id
-  vehicleModel.findById({_id:id}).exec()
-  .then(res=>{
-    res.status(200).json(res)
-  })
-  .catch(err=>{
-    res=errorHandler(res,err)
-  })
-  return res
-})
+app.get('/gaadi/:id', (req, res, next) => {
+  const id = req.params.id;
+  console.log(id);
+  vehicleModel
+    .findById({ _id: id })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
 
-app.get("/showrooms/:brand",(req,res,next)=>{
-  const Brand = req.params.brand
-  showroomModel.find({Brand}).exec()
-  .then(res=>{
-    res.status(200).json(res)
-  })
-  .catch(err=>{
-    res=errorHandler(res,err)
-  })
-  return res
-})
+app.get('/showrooms/:brand', (req, res, next) => {
+  const Brand = req.params.brand;
+  showroomModel
+    .find({ Brand })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
 
 app.listen(port, () => console.log(`listening on port:${port}`));
