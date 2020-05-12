@@ -1,6 +1,5 @@
 import React from 'react';
 import { Layout } from 'antd';
-import { Link } from 'react-router-dom';
 import Title from 'antd/lib/typography/Title';
 
 const { Header } = Layout;

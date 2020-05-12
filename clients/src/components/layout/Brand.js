@@ -28,7 +28,7 @@ class Brand extends Component {
   render() {
     return (
       <div>
-        <h1 className='heading'>{this.props.match.params.BrandName}</h1>
+        <h2 className='heading'>{this.props.match.params.BrandName}</h2>
         {this.state.data ? (
           this.state.data.map((element) => {
             return (
@@ -43,7 +43,11 @@ class Brand extends Component {
         ) : (
           <div
             align='center'
-            style={{ justifyContent: 'center', marginTop: '10%' }}
+            style={{
+              justifyContent: 'center',
+              marginTop: '10%',
+              marginBottom: '10%',
+            }}
           >
             <Spin indicator={antIcon} />
           </div>

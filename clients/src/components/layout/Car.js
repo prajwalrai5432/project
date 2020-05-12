@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Button } from 'antd';
+import { Table, Button, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />;
 
 class Car extends Component {
   state = {
     carData: [],
+    loading: true,
     column: [
       {
         title: 'Brand',
@@ -53,10 +57,7 @@ class Car extends Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
-        this.setState({ carData: [json] }, () =>
-          console.log(this.state.carData)
-        );
+        this.setState({ carData: [json], loading: false });
       })
       .catch((err) => console.log(err));
   };
@@ -80,12 +81,23 @@ class Car extends Component {
               }}
             />
             <Link to={`/Showrooms/${this.state.carData[0].Brand}`}>
-              <div align='center' style={{ paddingTop: 40 }}>
+              <div align='center' style={{ paddingTop: 40, paddingBottom: 40 }}>
                 <button class='example_d'>View Showrooms</button>
               </div>
             </Link>
           </div>
-        ) : null}
+        ) : (
+          <div
+            align='center'
+            style={{
+              justifyContent: 'center',
+              marginTop: '10%',
+              marginBottom: '10%',
+            }}
+          >
+            <Spin indicator={antIcon} />
+          </div>
+        )}
       </div>
     );
   }

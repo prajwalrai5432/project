@@ -9,6 +9,7 @@ import Body from './components/layout/Body';
 import Fuel from './components/layout/Fuel';
 import Price from './components/layout/Price';
 import Model from './components/layout/Model';
+import Footers from './components/layout/Footers';
 import Showroom from './components/layout/Showroom';
 import './App.css';
 
@@ -31,6 +32,7 @@ function App() {
         <Route exact path='/Budget' component={Price} />
         <Route exact path='/Model/:ModelName' component={Model} />
       </Switch>
+      <Footers />
     </Router>
   );
 }
