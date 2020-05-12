@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 
 class Car extends Component {
   state = {
@@ -65,13 +65,24 @@ class Car extends Component {
       <div>
         {this.state.carData.length > 0 ? (
           <div>
-            <img src={this.state.carData[0].Image} style={{ height: 300 }} />
+            <img
+              className='image'
+              src={this.state.carData[0].Image}
+              style={{ height: 450 }}
+            />
             <Table
               dataSource={this.state.carData}
               columns={this.state.column}
+              pagination={{
+                total: this.state.carData.length,
+                pageSize: this.state.carData.length,
+                hideOnSinglePage: true,
+              }}
             />
             <Link to={`/Showrooms/${this.state.carData[0].Brand}`}>
-              <button>View showrooms</button>
+              <div align='center' style={{ paddingTop: 40 }}>
+                <button class='example_d'>View Showrooms</button>
+              </div>
             </Link>
           </div>
         ) : null}

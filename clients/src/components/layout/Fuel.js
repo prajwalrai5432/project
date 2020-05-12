@@ -22,18 +22,17 @@ class Fuel extends Component {
   render() {
     return (
       <div>
-        <h1>{this.props.match.params.FuelType} Engine Vehicles</h1>
+        <h1 className='heading'>
+          {this.props.match.params.FuelType} Engine Vehicles
+        </h1>
         {this.state.data
           ? this.state.data.map((element) => {
               return (
-                <div>
+                <div className='list'>
+                  <img src={`${element.Image}`} style={{ height: 150 }}></img>
                   <Link to={`/Car/${element._id}`}>
-                    <h1>{element.Model}</h1>
+                    <h3>{element.Model}</h3>
                   </Link>
-                  <img
-                    src={`${element.Image}`}
-                    style={{ height: 100, width: 100 }}
-                  ></img>
                 </div>
               );
             })

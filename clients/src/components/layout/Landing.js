@@ -1,28 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Input, Tabs, Slider, Switch } from 'antd';
-import axios from 'axios';
-// import { StickyContainer, Sticky } from 'react-sticky';
+import { Link, withRouter } from 'react-router-dom';
+import { Input, Tabs, Slider, Switch, Button } from 'antd';
 
 const { Search } = Input;
 
 const { TabPane } = Tabs;
 
-// const renderTabBar = (props, DefaultTabBar) => (
-//   <Sticky bottomOffset={80}>
-//     {({ style }) => (
-//       <DefaultTabBar
-//         {...props}
-//         className='site-custom-tab-bar'
-//         style={{ ...style }}
-//       />
-//     )}
-//   </Sticky>
-// );
-
 class Landing extends Component {
   state = {
-    values: [],
+    values: [500000, 1000000],
     ModelName: null,
   };
   render() {
@@ -31,40 +17,19 @@ class Landing extends Component {
         <div className='dark-overlay'>
           <div className='landing-inner'>
             <h1 className='large'>Find Your Car</h1>
-            <p className='lead'>
-              Search from a complete list of cars sold all across Bengaluru
-            </p>
-            {/* <Link to={`/Model/${this.state.ModelName}`}> */}
             <Search
-              style={{ borderRadius: 25, broder: 1, borderColor: 'red' }}
+              style={{ marginBottom: '4%' }}
               className='search'
-              placeholder='input search text'
-              onSearch={(e) => this.setState({ ModelName: e })}
-              enterButton
+              placeholder='Search by model name'
+              onSearch={(e) =>
+                this.setState({ ModelName: e }, () =>
+                  this.props.history.push(`/Model/${this.state.ModelName}`)
+                )
+              }
             />
-            {/* </Link> */}
+
             <br />
             <p>
-              {/* <StickyContainer>
-                <Tabs
-                  className='tabs'
-                  defaultActiveKey='1'
-                  renderTabBar={renderTabBar}
-                >
-                  <TabPane tab='Tab 1' key='1'>
-                    Content of Tab Pane
-                    1sddlsbslfnsdlfkdsfkdfa;lma;dmad;lmd;ladm;fns dgnx,vsldfa
-                    sdldm;fmewriwffiwfnslsfasijoea;weaksnfdk fnssjweojeo;a;
-                    asdldmsad;fnfn;ngn;gsdfn;ef
-                  </TabPane>
-                  <TabPane tab='Tab 2' key='2'>
-                    Content of Tab Pane 2
-                  </TabPane>
-                  <TabPane tab='Tab 3' key='3'>
-                    Content of Tab Pane 3
-                  </TabPane>
-                </Tabs>
-              </StickyContainer> */}
               <Tabs className='tabs'>
                 <TabPane tab='Brands' key='1'>
                   <div>
@@ -124,24 +89,47 @@ class Landing extends Component {
                         Ford
                       </a>
                     </Link>
+                    <Link to='/Brand/Volkswagen'>
+                      <a
+                        className='links'
+                        onClick={() => this.dataRequest('Volkswagen')}
+                      >
+                        Volkswagen
+                      </a>
+                    </Link>
+                    <Link to='/Brand/Renault'>
+                      <a
+                        className='links'
+                        onClick={() => this.dataRequest('Renault')}
+                      >
+                        Renault
+                      </a>
+                    </Link>
+                    <Link to='/Brand/Skoda'>
+                      <a
+                        className='links'
+                        onClick={() => this.dataRequest('Skoda')}
+                      >
+                        Skoda
+                      </a>
+                    </Link>
+                    <Link to='/Brand/MG'>
+                      <a
+                        className='links'
+                        onClick={() => this.dataRequest('MG')}
+                      >
+                        MG
+                      </a>
+                    </Link>
                   </div>
                 </TabPane>
                 <TabPane tab='Budget' key='2'>
-                  {/* <Slider
-                    min={100000}
-                    max={5000000}
-                    range
-                    defaultValue={[200000, 500000]}
-                    tooltipVisible
-                    mouseEnterDelay={0.1}
-                    mouseLeaveDelay={0.1}
-                  /> */}
                   <Slider
                     onChange={(element) => this.setState({ values: element })}
                     range
                     min={100000}
                     max={5000000}
-                    defaultValue={[500000, 1000000]}
+                    defaultValue={this.state.values}
                   />
                   <Link
                     to={{
@@ -149,7 +137,9 @@ class Landing extends Component {
                       search: `?greaterthan=${this.state.values[0]}&lessthan=${this.state.values[1]}`,
                     }}
                   >
-                    <button>Search</button>
+                    <div align='center'>
+                      <button class='example_d'>Search</button>
+                    </div>
                   </Link>
                 </TabPane>
                 <TabPane tab='Body Type' key='3'>
@@ -244,4 +234,4 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+export default withRouter(Landing);

@@ -198,7 +198,7 @@ app.get('/vehicle/:Fuel', (req, res, next) => {
 app.get('/automobile/:Model', (req, res, next) => {
   const Model = req.params.Model;
   vehicleModel
-    .find({ Fuel })
+    .find({ Model })
     .exec()
     .then((response) => {
       res.status(200).json(response);
