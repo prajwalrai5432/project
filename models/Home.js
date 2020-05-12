@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const {ObjectId} = mongoose.Schema.Types
+const { ObjectId } = mongoose.Schema.Types;
 const ModelSchema = new mongoose.Schema({
-  _id:{
-    type:ObjectId,
-    required:true
+  _id: {
+    type: ObjectId,
+    required: true,
   },
   Brand: {
     type: String,
@@ -14,7 +14,7 @@ const ModelSchema = new mongoose.Schema({
     required: true,
   },
   Price: {
-    type: String,
+    type: Number,
     required: true,
   },
   Fuel: {

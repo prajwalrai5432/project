@@ -1,6 +1,7 @@
 const connectDB = require('./config/db');
 const express = require('express');
 const formidable = require('formidable');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const image2base64 = require('image-to-base64');
@@ -12,6 +13,8 @@ const port = 5000;
 const cors = require('cors');
 
 app.use(cors());
+
+app.use(bodyParser.json());
 
 connectDB()
   .then(() => {
@@ -140,6 +143,77 @@ app.get('/cars/:Brand', (req, res, next) => {
   const Brand = req.params.Brand;
   vehicleModel
     .find({ Brand })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
+
+app.get('/vahan/:Body', (req, res, next) => {
+  const Body = req.params.Body;
+  vehicleModel
+    .find({ Body })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
+
+app.get('/ride/:Seats', (req, res, next) => {
+  const Seats = req.params.Seats;
+  vehicleModel
+    .find({ Seats })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
+
+app.get('/vehicle/:Fuel', (req, res, next) => {
+  const Fuel = req.params.Fuel;
+  vehicleModel
+    .find({ Fuel })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
+
+app.get('/automobile/:Model', (req, res, next) => {
+  const Model = req.params.Model;
+  vehicleModel
+    .find({ Fuel })
+    .exec()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res = errorHandler(res, err);
+    });
+  return res;
+});
+
+app.post('/range', (req, res, next) => {
+  const { lessthan, greaterthan } = req.body;
+  console.log(lessthan, greaterthan);
+  vehicleModel
+    .find({ Price: { $gte: greaterthan, $lte: lessthan } })
     .exec()
     .then((response) => {
       res.status(200).json(response);
