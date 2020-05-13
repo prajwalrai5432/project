@@ -13,7 +13,6 @@ class Price extends Component {
   };
   componentDidMount() {
     const values = queryString.parse(this.props.location.search);
-    console.log(values);
     this.dataRequest(values);
   }
   dataRequest = ({ lessthan, greaterthan }) => {
@@ -28,11 +27,7 @@ class Price extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((json) =>
-        this.setState({ data: json, loading: false }, () =>
-          console.log(this.state.data)
-        )
-      )
+      .then((json) => this.setState({ data: json, loading: false }))
       .catch((err) => console.log(err));
   };
   render() {

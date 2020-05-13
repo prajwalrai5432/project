@@ -48,7 +48,6 @@ class Car extends Component {
     ],
   };
   componentDidMount() {
-    console.log(this.props.match.params);
     this.dataRequest(this.props.match.params.CarId);
   }
   dataRequest = (CarId) => {

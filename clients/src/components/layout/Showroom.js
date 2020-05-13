@@ -24,7 +24,6 @@ class Showroom extends Component {
     ],
   };
   componentDidMount() {
-    console.log(this.props.match.params);
     this.dataRequest(this.props.match.params.Brand);
   }
   dataRequest = (Brand) => {
@@ -33,10 +32,7 @@ class Showroom extends Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
-        this.setState({ showroomData: json }, () =>
-          console.log(this.state.showroomData)
-        );
+        this.setState({ showroomData: json });
       })
       .catch((err) => console.log(err));
   };

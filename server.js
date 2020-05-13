@@ -51,7 +51,6 @@ app.post('/datata', (req, res, next) => {
     multiples: true,
   });
   form.parse(req, (err, fields, files) => {
-    console.log(fields);
     if (err) {
       next(err);
       return;
@@ -211,7 +210,6 @@ app.get('/automobile/:Model', (req, res, next) => {
 
 app.post('/range', (req, res, next) => {
   const { lessthan, greaterthan } = req.body;
-  console.log(lessthan, greaterthan);
   vehicleModel
     .find({ Price: { $gte: greaterthan, $lte: lessthan } })
     .exec()
@@ -226,7 +224,6 @@ app.post('/range', (req, res, next) => {
 
 app.get('/gaadi/:id', (req, res, next) => {
   const id = req.params.id;
-  console.log(id);
   vehicleModel
     .findById({ _id: id })
     .exec()

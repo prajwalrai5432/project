@@ -18,11 +18,7 @@ class Model extends Component {
       method: 'GET',
     })
       .then((response) => response.json())
-      .then((json) =>
-        this.setState({ data: json, loading: false }, () =>
-          console.log(this.state.data)
-        )
-      )
+      .then((json) => this.setState({ data: json, loading: false }))
       .catch((err) => console.log(err));
   };
   render() {
