@@ -31,6 +31,7 @@ class Showroom extends Component {
       method: 'GET',
     })
       .then((response) => response.json())
+
       .then((json) => {
         this.setState({ showroomData: json });
       })
