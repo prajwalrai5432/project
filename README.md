@@ -1,5 +1,5 @@
 # Prajwal Rai
-This a project of my friend Prajwal.
+This a project of Prajwal and Asad.
 # Setting up the project
 ## change you directory
 `cd prajwal_rai`
